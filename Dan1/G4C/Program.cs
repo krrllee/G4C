@@ -5,12 +5,20 @@ void Calculator()
     
    while(true)
     {
-        var input = int.Parse(Console.ReadLine());
-        if (input.Equals('x')) {
+        var input = Console.ReadLine();
+        if (input.Equals("x")) {
             return;
-          } 
+          }
 
-        Console.WriteLine(input * input);
+        try
+        {
+            int inputNumber = int.Parse(input);
+            Console.WriteLine(inputNumber * inputNumber);
+        }
+        catch
+        {
+            
+        }
     }
 }
 
@@ -43,8 +51,12 @@ void Deljivost()
 }
 
 //zadatak 4
+Calculator();
+//Fibonaci(5);
+//Deljivost();
+
 Osoba osoba1 = new Osoba();
-osoba1.Zadatak6();
+//osoba1.Zadatak6();
 
 public enum Pol
     {
@@ -113,6 +125,3 @@ public enum Pol
 }
 
 
-//Calculator();
-//Fibonaci(5);
-//Deljivost();

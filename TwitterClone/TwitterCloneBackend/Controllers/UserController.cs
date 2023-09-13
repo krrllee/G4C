@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TwitterCloneBackend.Dto;
 using TwitterCloneBackend.Models;
-using TwitterCloneBackend.Repositories;
+using TwitterCloneBackend.Repositories.Interfaces;
+using TwitterCloneBackend.Services.Interfaces;
 
 namespace TwitterCloneBackend.Controllers
 {
@@ -8,35 +10,59 @@ namespace TwitterCloneBackend.Controllers
     [Route("api/users")]
     public class UserController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         [HttpGet]
         [Route("GetAll")]
-        public IEnumerable<User> GetAll()
+        public IActionResult GetAll()
         {
-            var users = _userRepository.getAll();
-            return users.ToList();
+            IEnumerable<UserDto> items = _userService.getAll();
+            return Ok(items);
         }
 
         [HttpGet]
-        [Route("GetById")]
-        public User GetById(int id)
+        [Route("GetById/{id}")]
+        public IActionResult GetById(int id)
         {
-            var user = _userRepository.getById(id);
-            return user;
+
+            try
+            {
+                UserDto user = _userService.getById(id);
+                if (user == null)
+                {
+                    return NotFound(); // Return a 404 response if the user is not found.
+                }
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+
+            }
         }
 
         [HttpPost]
-        [Route("AddUser")]
-        public bool AddUser(User user)
+        [Route("UpdateUser")]
+        public IActionResult updateUser(UpdateDto user)
         {
+            if (user == null)
+            {
+                return BadRequest("Invalid user data");
+            }
 
-            return false;
+            var updatedUser = _userService.updateUser(user);
+
+            if (updatedUser == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(updatedUser);
         }
        
     }

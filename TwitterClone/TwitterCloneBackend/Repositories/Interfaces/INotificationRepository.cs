@@ -1,6 +1,6 @@
 ﻿using TwitterCloneBackend.Models;
 
-namespace TwitterCloneBackend.Repositories
+namespace TwitterCloneBackend.Repositories.Interfaces
 {
     public interface INotificationRepository
     {

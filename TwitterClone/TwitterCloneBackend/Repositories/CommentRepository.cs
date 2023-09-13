@@ -1,4 +1,5 @@
 ﻿using TwitterCloneBackend.Models;
+using TwitterCloneBackend.Repositories.Interfaces;
 
 namespace TwitterCloneBackend.Repositories
 {

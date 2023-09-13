@@ -1,4 +1,7 @@
-﻿using TwitterCloneBackend.Models;
+﻿using AutoMapper;
+using TwitterCloneBackend.Dto;
+using TwitterCloneBackend.Models;
+using TwitterCloneBackend.Repositories.Interfaces;
 
 namespace TwitterCloneBackend.Repositories
 {
@@ -6,69 +9,33 @@ namespace TwitterCloneBackend.Repositories
     {
 
         private readonly TwitterDbContext _context;
-        public UserRepository(TwitterDbContext context)
+        private readonly IMapper _mapper;
+        public UserRepository(IMapper mapper,TwitterDbContext context)
         {
+            _mapper = mapper;
             _context = context;
         }
-        public bool addUser(User user)
+
+        public UserDto getById(int id)
         {
-            try
-            {
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                return true;
-            }
-            catch (Exception ex) {
-                return false;
-            }
+            var userEntity = _context.Users.SingleOrDefault(u => u.Id == id);
+            return _mapper.Map<UserDto>(userEntity);
         }
 
-        public List<User> getAll()
+        public User getByUsername(string username)
         {
-            return _context.Users.ToList();
+            return _context.Users.FirstOrDefault(u => u.Username == username);
         }
 
-        public User getById(int id)
+        public void updateUser(User user)
         {
-            var result = _context.Users.FirstOrDefault(x => x.Id == id);
-            if (result == null) {
-                return null;
-            }
-            return result;
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
 
-        public bool removeUser(int id)
+        List<UserDto> IUserRepository.getAll()
         {
-            try
-            {
-                var res = _context.Users.FirstOrDefault(u => u.Id == id);
-                if(res != null)
-                {
-                    _context.Users.Remove(res);
-                    _context.SaveChanges();
-                    return true;
-
-                }
-                return false;
-            }
-            catch(Exception ex)
-            {
-                return false; 
-            }
-        }
-
-        public bool updateUser(User user)
-        {
-            try
-            {
-                var res = _context.Users.Update(user);
-                _context.SaveChanges();
-                return true;
-            }
-            catch(Exception ex)
-            {
-                return false;
-            }
+            return _mapper.Map<List<UserDto>>(_context.Users.ToList());
         }
     }
 }

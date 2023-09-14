@@ -16,13 +16,13 @@ namespace TwitterCloneBackend.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ILoginRepository _loginRepository;
-        private readonly string _jwtSecret;
-        private readonly int _jwtExpirationMinutes = 30;
+        private readonly IConfigurationSection _secretKey;
 
-        public LoginService(ILoginRepository loginRepository,IUserRepository userRepository)
+        public LoginService(ILoginRepository loginRepository,IUserRepository userRepository,IConfiguration config)
         {
             _loginRepository = loginRepository;
             _userRepository = userRepository;
+            _secretKey = config.GetSection("SecretKey");
         }
 
         public string Login(LoginDto loginDto)
@@ -37,7 +37,19 @@ namespace TwitterCloneBackend.Services
                 return("Invalid password.");
             }
 
-            return ("Logged in.");
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, user.Username));
+
+
+            SymmetricSecurityKey secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey.Value));
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            var tokeOptions = new JwtSecurityToken(
+                issuer: "http://localhost:44398",
+                claims: claims, //claimovi
+                expires: DateTime.Now.AddMinutes(10),
+                signingCredentials: signinCredentials
+            );
+            return new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         }
 
 

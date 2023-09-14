@@ -1,4 +1,5 @@
-﻿using TwitterCloneBackend.Dto;
+﻿using System.Reflection.Metadata.Ecma335;
+using TwitterCloneBackend.Dto;
 using TwitterCloneBackend.Models;
 using TwitterCloneBackend.Repositories;
 using TwitterCloneBackend.Repositories.Interfaces;
@@ -34,6 +35,24 @@ namespace TwitterCloneBackend.Services
             {
                 throw new Exception("User not found.");
             }
-         }    
+         }
+
+        public void DeleteTweet(int id)
+        {
+            _tweetRepository.DeleteTweet(id);
+        }
+
+        public IEnumerable<TweetDto> GetTweetsByUser(string username)
+        {
+            var user = _userRepository.getByUsername(username);
+            if(user != null)
+            {
+                var tweets = _tweetRepository.GetTweetsByUser(user);
+               
+                return tweets;
+            }
+            return null;
+            
+        }
     }
 }

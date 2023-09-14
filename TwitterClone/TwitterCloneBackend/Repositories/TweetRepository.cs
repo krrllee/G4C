@@ -19,5 +19,31 @@ namespace TwitterCloneBackend.Repositories
             _context.Tweets.Add(tweet);
             _context.SaveChanges();
         }
+
+        public void DeleteTweet(int id)
+        {
+            var tweet = _context.Tweets.FirstOrDefault(t => t.Id == id);
+
+            if (tweet != null)
+            {
+                _context.Tweets.Remove(tweet);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Tweet not found"); // Custom exception for not found scenario
+            }
+        }
+
+        public IEnumerable<TweetDto> GetTweetsByUser(User user)
+        {
+            var tweets = _context.Tweets.Where(tweet => tweet.UserId == user.Id).ToList();
+            var tweetDtos = tweets.Select(tweet => new TweetDto
+            {
+                Content = tweet.Content,
+            });
+            return tweetDtos;
+
+        }
     }
 }

@@ -12,9 +12,5 @@ namespace TwitterCloneBackend.Dto
         public string? Password { get; set; }
         public string? Bio { get; set; }
 
-        public List<Tweet> Tweets { get; set; }
-        public List<Follow> Followers { get; set; }
-        public List<Follow> Following { get; set; }
-        public List<Notification> Notifications { get; set; }
     }
 }

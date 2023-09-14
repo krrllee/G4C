@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TwitterCloneBackend.Dto;
+using TwitterCloneBackend.Services;
 using TwitterCloneBackend.Services.Interfaces;
 
 namespace TwitterCloneBackend.Controllers
@@ -32,5 +33,37 @@ namespace TwitterCloneBackend.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
+
+        [HttpGet]
+        [Route("GetTweets")]
+        [Authorize]
+        public IActionResult GetTweetsFromUser()
+        {
+            string username = User.Identity.Name;
+            var res = _tweetService.GetTweetsByUser(username);
+
+
+            return Ok(res);
+        }
+
+        [HttpDelete]
+        [Route("DeleteTweet")]
+        [Authorize]
+        public IActionResult DeleteTweet(string id)
+        {
+            try
+            {
+                var tweetId = int.Parse(id);
+                _tweetService.DeleteTweet(tweetId);
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }

@@ -64,6 +64,22 @@ namespace TwitterCloneBackend.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("UpdateTweet")]
+        [Authorize]
+        public IActionResult UpdateTweet(string id, [FromBody]TweetDto tweetDto)
+        {
+            try
+            {
+                var tweetId = int.Parse(id);
+                _tweetService.UpdateTweet(tweetId, tweetDto);
+                return NoContent(); // Successful update returns 204 No Content
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message); // Handle errors appropriately
+            }
+        }
 
     }
 }

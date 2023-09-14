@@ -14,7 +14,7 @@ namespace TwitterCloneBackend.Repositories
 
         public void AddTweet(Tweet tweet)
         {
-          
+
 
             _context.Tweets.Add(tweet);
             _context.SaveChanges();
@@ -44,6 +44,22 @@ namespace TwitterCloneBackend.Repositories
             });
             return tweetDtos;
 
+        }
+
+        public void UpdateTweet(int id, TweetDto tweetDto)
+        {
+            var tweet = _context.Tweets.FirstOrDefault(t => t.Id == id);
+            if (tweet != null)
+            {
+                // Update the tweet properties based on the data in tweetUpdateModel
+                tweet.Content = tweetDto.Content; // Example property
+
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Tweet not found"); // Custom exception for not found scenario
+            }
         }
     }
 }

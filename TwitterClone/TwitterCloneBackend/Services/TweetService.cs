@@ -54,5 +54,10 @@ namespace TwitterCloneBackend.Services
             return null;
             
         }
+
+        public void UpdateTweet(int id, TweetDto tweetDto)
+        {
+            _tweetRepository.UpdateTweet(id, tweetDto);
+        }
     }
 }

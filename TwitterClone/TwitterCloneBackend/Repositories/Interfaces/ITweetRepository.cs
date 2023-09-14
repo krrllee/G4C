@@ -8,5 +8,7 @@ namespace TwitterCloneBackend.Repositories.Interfaces
         void AddTweet(Tweet tweet);
         public IEnumerable<TweetDto> GetTweetsByUser(User user);
         void DeleteTweet(int id);
+        void UpdateTweet(int id, TweetDto tweetDto);
+
     }
 }

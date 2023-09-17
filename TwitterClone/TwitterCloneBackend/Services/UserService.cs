@@ -4,6 +4,7 @@ using TwitterCloneBackend.Models;
 using TwitterCloneBackend.Repositories.Interfaces;
 using TwitterCloneBackend.Services.Interfaces;
 using Microsoft.SqlServer.Management;
+using Microsoft.SqlServer.Management.SqlParser.Metadata;
 
 
 namespace TwitterCloneBackend.Services
@@ -60,6 +61,7 @@ namespace TwitterCloneBackend.Services
             existingUser.Email = user.Email;
             existingUser.Password = user.Password;
             existingUser.Bio = user.Bio;
+            existingUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
             _userRepository.updateUser(existingUser);
 

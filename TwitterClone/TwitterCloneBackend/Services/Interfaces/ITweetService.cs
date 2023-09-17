@@ -9,6 +9,11 @@ namespace TwitterCloneBackend.Services.Interfaces
         IEnumerable<TweetDto> GetTweetsByUser(string username);
         void DeleteTweet(int id);
         void UpdateTweet(int id, TweetDto tweetDto);
+        void AddLike(LikeDto dto,string username);
+        void RemoveLike(LikeDto likeDto);
+        void AddComment(string username,CommentDto comment);
+        void DeleteComment(int id);
+        void UpdateComment(string username, UpdateCommDto updateCommDto);
 
     }
 }

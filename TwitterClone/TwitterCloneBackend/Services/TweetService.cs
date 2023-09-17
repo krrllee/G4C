@@ -17,6 +17,52 @@ namespace TwitterCloneBackend.Services
             _tweetRepository = tweetRepository;
             _userRepository = userRepository1;
         }
+
+        public void AddComment(string username, CommentDto comment)
+        {
+            User user = _userRepository.getByUsername(username);
+            if (user != null)
+            {
+                var comm = new Comment
+                {     
+                    TweetId = comment.TweetId,
+                    Content = comment.Content,
+                    CommentedAt = DateTime.Now,
+                    UserId = user.Id,
+                };
+
+                _tweetRepository.AddComment(comm);
+            }
+        }
+
+        public void AddLike(LikeDto dto,string username)
+        {
+            var tweetId = dto.TweetId;
+            if(tweetId != null)
+            {
+                var user = _userRepository.getByUsername(username);
+                var tweet = _tweetRepository.GetTweetById(tweetId);
+                
+
+                if (tweet != null)
+                {
+                    var like = new Like
+                    {
+                        //Id = id,
+                        TweetId = tweetId,
+                        UserId = user.Id,
+                    };
+
+                    _tweetRepository.AddLike(like);
+                    tweet.LikesCount++; // Assuming LikesCount is an integer property
+                    _tweetRepository.UpdateTweetLikes(tweet);
+
+                }
+            }
+           
+
+        }
+
         public void AddTweet(string username, TweetDto tweet)
         {
             User user = _userRepository.getByUsername(username);
@@ -37,9 +83,16 @@ namespace TwitterCloneBackend.Services
             }
          }
 
+        public void DeleteComment(int id)
+        {
+            var comm = _tweetRepository.GetCommentById(id);
+            _tweetRepository.DeleteComment(comm);
+        }
+
         public void DeleteTweet(int id)
         {
             _tweetRepository.DeleteTweet(id);
+
         }
 
         public IEnumerable<TweetDto> GetTweetsByUser(string username)
@@ -53,6 +106,35 @@ namespace TwitterCloneBackend.Services
             }
             return null;
             
+        }
+
+        public void RemoveLike(LikeDto dto)
+        {
+            _tweetRepository.RemoveLike(dto);
+            var tweet = _tweetRepository.GetTweetById(dto.TweetId);
+            tweet.LikesCount--; 
+            _tweetRepository.UpdateTweetLikes(tweet);
+
+        }
+
+        public void UpdateComment(string username, UpdateCommDto updateCommDto)
+        {
+            var comment = _tweetRepository.GetCommentById(updateCommDto.Id);
+            var user = _userRepository.getByUsername(username);
+            
+
+            if(comment.UserId == user.Id)
+            {
+                var comm = new Comment
+                {
+                    Id = comment.Id,
+                    Content = updateCommDto.Content,
+                    UserId = user.Id,
+                    TweetId = updateCommDto.TweetId
+                };
+                _tweetRepository.UpdateComment(comm);
+            }
+           
         }
 
         public void UpdateTweet(int id, TweetDto tweetDto)

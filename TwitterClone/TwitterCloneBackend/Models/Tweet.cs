@@ -13,7 +13,8 @@ namespace TwitterCloneBackend.Models
         public int? UserId { get; set; }
         public User? User { get; set; }
 
-        public int Likes { get; set; }
+        public int LikesCount { get; set; }
+        public List<Like>? Likes { get; set; }
         public List<Comment>? Comments { get; set; }
 
         public Tweet? Retweeted { get; set; }

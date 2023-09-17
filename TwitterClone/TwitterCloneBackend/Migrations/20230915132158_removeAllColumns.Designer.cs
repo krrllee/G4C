@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TwitterCloneBackend.Models;
 
@@ -11,9 +12,11 @@ using TwitterCloneBackend.Models;
 namespace TwitterCloneBackend.Migrations
 {
     [DbContext(typeof(TwitterDbContext))]
-    partial class TwitterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230915132158_removeAllColumns")]
+    partial class removeAllColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace TwitterCloneBackend.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TweetId")
+                    b.Property<int>("TweetId")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserId")
@@ -70,29 +73,6 @@ namespace TwitterCloneBackend.Migrations
                     b.HasIndex("FollowingId");
 
                     b.ToTable("Follows");
-                });
-
-            modelBuilder.Entity("TwitterCloneBackend.Models.Like", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("TweetId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TweetId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("TwitterCloneBackend.Models.Notification", b =>
@@ -190,7 +170,8 @@ namespace TwitterCloneBackend.Migrations
                     b.HasOne("TwitterCloneBackend.Models.Tweet", "Tweet")
                         .WithMany("Comments")
                         .HasForeignKey("TweetId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TwitterCloneBackend.Models.User", "User")
                         .WithMany()
@@ -218,22 +199,6 @@ namespace TwitterCloneBackend.Migrations
                     b.Navigation("Follower");
 
                     b.Navigation("Following");
-                });
-
-            modelBuilder.Entity("TwitterCloneBackend.Models.Like", b =>
-                {
-                    b.HasOne("TwitterCloneBackend.Models.Tweet", "Tweet")
-                        .WithMany("Likes")
-                        .HasForeignKey("TweetId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TwitterCloneBackend.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Tweet");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TwitterCloneBackend.Models.Notification", b =>
@@ -266,8 +231,6 @@ namespace TwitterCloneBackend.Migrations
             modelBuilder.Entity("TwitterCloneBackend.Models.Tweet", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Likes");
 
                     b.Navigation("Retweetes");
                 });

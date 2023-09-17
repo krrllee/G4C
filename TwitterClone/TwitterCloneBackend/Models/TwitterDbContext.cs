@@ -11,6 +11,7 @@ namespace TwitterCloneBackend.Models
         public DbSet<Follow> Follows { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -42,6 +43,17 @@ namespace TwitterCloneBackend.Models
                 .WithMany(u => u.Notifications)
                 .HasForeignKey(n => n.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Like>().
+                HasOne(t => t.Tweet)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(t => t.TweetId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Tweet>()
+        .HasMany(t => t.Comments)
+        .WithOne(c => c.Tweet)
+        .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

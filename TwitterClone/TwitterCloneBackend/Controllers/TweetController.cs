@@ -46,14 +46,14 @@ namespace TwitterCloneBackend.Controllers
             return Ok(res);
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("DeleteTweet")]
         [Authorize]
-        public IActionResult DeleteTweet(string id)
+        public IActionResult DeleteTweet(int id)
         {
             try
             {
-                var tweetId = int.Parse(id);
+                var tweetId = id;
                 _tweetService.DeleteTweet(tweetId);
                 return NoContent();
 
@@ -79,6 +79,95 @@ namespace TwitterCloneBackend.Controllers
             {
                 return BadRequest(ex.Message); // Handle errors appropriately
             }
+        }
+
+        [HttpPost]
+        [Route("AddLike")]
+        [Authorize]
+        public IActionResult AddLike([FromBody]LikeDto likeDto)
+        {
+            try
+            {
+                var username = User.Identity.Name;
+                _tweetService.AddLike(likeDto,username);
+                return Ok("Like added.");
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("RemoveLike")]
+        [Authorize]
+        public IActionResult RemoveLike([FromBody]LikeDto likeDto)
+        {
+            try
+            {
+                _tweetService.RemoveLike(likeDto);
+                return Ok("Like removed successfully.");
+
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        [Route("AddComment")]
+        [Authorize]
+        public IActionResult AddComment([FromBody]CommentDto commentDto)
+        {
+            try
+            {
+                var username = User.Identity.Name;
+                _tweetService.AddComment(username, commentDto);
+                return Ok();
+            }
+            catch( Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteComment")]
+        [Authorize]
+        public IActionResult DeleteComment(string id)
+        {
+            try
+            {
+                //var username = User.Identity.Name;
+
+                _tweetService.DeleteComment(int.Parse(id));
+                return Ok("Comment deleted successfully.");
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateComment")]
+        [Authorize]
+        public IActionResult UpdateComment([FromBody]UpdateCommDto commentDto)
+        {
+            try
+            {
+                var username = User.Identity.Name;
+                _tweetService.UpdateComment(username, commentDto);
+                return Ok("Comment updated successfully.");
+
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+
+            }
+
         }
 
     }

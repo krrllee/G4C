@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'TwitterApp'`, () => {
+  it(`should have as title 'Twitter'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('TwitterApp');
+    expect(app.title).toEqual('Twitter');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('TwitterApp app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('Twitter app is running!');
   });
 });

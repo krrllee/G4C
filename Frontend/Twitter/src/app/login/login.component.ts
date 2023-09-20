@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,17 +17,17 @@ export class LoginComponent  {
   };
   errorMessage: string | null = null;
   private ngUnsubscribe = new Subject();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router: Router) {}
 
 
   onSubmit() {
     this.errorMessage = null;
-    console.log(this.loginDto)
     this.http
     .post('http://localhost:5050/api/login/login',this.loginDto,{ responseType: 'text' })
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe((data) => {
       console.log(JSON.stringify(data));
+      this.router.navigate(['/dashboard']);
     });
     ;
     

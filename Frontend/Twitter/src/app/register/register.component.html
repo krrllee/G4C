@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="card">
+      <h2 class="card-title">Register <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+        <path d="M22.46 5.54c-.81.36-1.68.6-2.6.71.94-.56 1.66-1.45 2.01-2.51-.88.52-1.86.9-2.9 1.12-.83-.89-2.02-1.45-3.34-1.45-2.53 0-4.58 2.05-4.58 4.58 0 .36.04.71.11 1.06-3.8-.19-7.16-2-9.43-4.76-.4.68-.63 1.47-.63 2.32 0 1.6.82 3.01 2.07 3.83-.76-.02-1.48-.23-2.11-.58v.06c0 2.24 1.59 4.1 3.69 4.52-.39.1-.8.16-1.22.16-.3 0-.59-.03-.88-.08.59 1.83 2.31 3.17 4.34 3.21-1.59 1.24-3.59 1.98-5.78 1.98-.37 0-.74-.02-1.11-.07 2.06 1.33 4.51 2.10 7.15 2.10 8.59 0 13.32-7.12 13.32-13.32 0-.20-.01-.41-.02-.61.92-.67 1.73-1.51 2.37-2.46z" fill="#1DA1F2"/> <!-- Promenjena boja u plavu (#1DA1F2) -->
+      </svg></h2>
+      
+      <form (ngSubmit)="registerUser()">
+        <div class="form-group">
+         
+          <input type="text" [(ngModel)]="user.Username" name="Username" id="username" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+          <input type="text" [(ngModel)]="user.FirstName" name="FirstName" id="firstname" class="form-control" placeholder="First Name" required>
+        </div>
+        <div class="form-group">
+          <input type="text" [(ngModel)]="user.LastName" name="LastName" id="lastname" class="form-control" placeholder="Last Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" [(ngModel)]="user.Email" name="Email" id="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+          <input type="password" [(ngModel)]="user.Password" name="Password" id="password" class="form-control" placeholder="Password" required>
+          <div>
+            <button type="submit" class="btn-primary">Register</button>
+          </div>
+        </div>
+        
+      </form>
+      <p class="link">Already have an account? <a href="login">Login</a></p>
+    </div>
+  </div>
+  

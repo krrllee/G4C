@@ -45,7 +45,7 @@ namespace TwitterCloneBackend.Controllers
             }
             else
             {
-                return BadRequest("Wrong email!");
+                return BadRequest("Wrong username!");
             }
         }
     }

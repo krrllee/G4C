@@ -9,7 +9,7 @@
       <div class="login-card">
   
           <form>
-               <div class="form-group"> 
+            <div class="form-group"> 
              <div>
                     <input type="text" id="username" [(ngModel)]="loginDto.username" name="username" placeholder="Username" required>
                     <input type="password" id="password" [(ngModel)]="loginDto.password" name="password"placeholder="Password" required>
@@ -19,6 +19,7 @@
                   
               </div>
                <button type="submit" class="login-button"(click)="onSubmit()">Login</button>
+               <a href = "register">Sign Up</a>
           </form>
           <div class="error" id="error-message"></div>
       </div>

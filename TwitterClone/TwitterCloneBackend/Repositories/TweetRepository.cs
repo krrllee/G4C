@@ -70,6 +70,9 @@ namespace TwitterCloneBackend.Repositories
             var tweetDtos = tweets.Select(tweet => new TweetDto
             {
                 Content = tweet.Content,
+                UserName= user.Username,
+                Created = tweet.Created,
+                Name = user.FirstName+" "+user.LastName,
             });
             return tweetDtos;
 

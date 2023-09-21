@@ -24,11 +24,10 @@
 .notification-link{
     display: inline;
     margin-left: 20px;
-    border-radius: 50px;
+    transition: color 0.3s;
 }
 .notification-link:hover{
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
+    color:black;
 }
   .home-link{
     display: inline;

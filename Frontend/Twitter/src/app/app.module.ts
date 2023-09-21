@@ -13,6 +13,8 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FeedComponent } from './feed/feed.component';
+import {MatIconModule} from '@angular/material/icon';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -35,8 +37,11 @@ import { FeedComponent } from './feed/feed.component';
     MatFormFieldModule,
     MatCardModule,
     MatInputModule,
+    MatIconModule
   ],
-  providers: [],
+  providers: [
+    DatePipe,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

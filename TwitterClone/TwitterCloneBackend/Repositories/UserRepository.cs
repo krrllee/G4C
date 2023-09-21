@@ -33,9 +33,9 @@ namespace TwitterCloneBackend.Repositories
             _context.SaveChanges();
         }
 
-        List<UserDto> IUserRepository.getAll()
+        List<UserDto> IUserRepository.getAll(User user)
         {
-            return _mapper.Map<List<UserDto>>(_context.Users.ToList());
+            return _mapper.Map<List<UserDto>>(_context.Users.Where(u=>u.Id != user.Id).ToList());
         }
     }
 }

@@ -16,9 +16,10 @@ namespace TwitterCloneBackend.Services
         {
             _userRepository = userRepository;
         }
-        public List<UserDto> getAll()
+        public List<UserDto> getAll(string username)
         {
-            return _userRepository.getAll();
+            var user = _userRepository.getByUsername(username);
+            return _userRepository.getAll(user);
         }
 
         public UserDto getById(int id)

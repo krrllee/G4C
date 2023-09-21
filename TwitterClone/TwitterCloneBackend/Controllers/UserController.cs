@@ -21,7 +21,8 @@ namespace TwitterCloneBackend.Controllers
         [Route("GetAll")]
         public IActionResult GetAll()
         {
-            IEnumerable<UserDto> items = _userService.getAll();
+            var username = User.Identity.Name;
+            IEnumerable<UserDto> items = _userService.getAll(username);
             return Ok(items);
         }
 

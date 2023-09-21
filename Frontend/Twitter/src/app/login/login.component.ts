@@ -26,7 +26,8 @@ export class LoginComponent  {
     .post('http://localhost:5050/api/login/login',this.loginDto,{ responseType: 'text' })
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe((data) => {
-      console.log(JSON.stringify(data));
+      sessionStorage.setItem('authToken', data);
+      console.log(sessionStorage);
       this.router.navigate(['/dashboard']);
     });
     ;

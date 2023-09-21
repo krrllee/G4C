@@ -1,4 +1,49 @@
 <div class="dashboard">
+  <div class="sidebar">
     <app-sidebar></app-sidebar>
-    <app-feed></app-feed>
   </div>
+  
+  <div class="feed-container">
+    <h1>Feed</h1>
+    <div class="textbox-container">
+      <!-- Textbox to capture new tweet content -->
+      <input [(ngModel)]="newTweetContent" type="text" class="styled-textbox">
+      <!-- Button to add the new tweet -->
+      <button (click)="addTweet()">Add Tweet</button>
+    </div>
+    
+    <div class="tweet-list">
+      <div *ngFor="let tweet of tweets" class="tweet">
+        <div class="user-info">
+          <span class="username">{{ tweet.name }}</span>
+          <span class="username2">@{{ tweet.userName }} •</span>
+          <span class="time">{{ formatDate(tweet.created) }}</span>
+        </div>
+        <p class="tweet-content">{{ tweet.content }}</p>
+        <div class="buttons">
+          <button class="material-symbols-outlined">
+            favorite
+          </button>
+          <button class="material-symbols-outlined">
+            add_comment
+          </button>
+          <button class="material-symbols-sharp">
+            share
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-sidebar">
+    <div class="user-data">
+      <h1 class="usersh1">Recommended</h1>
+      <div *ngFor="let user of userData" class="user-container">
+        <div class="user-information">
+          <span class="user-info-username">{{ user.username }}</span>
+          <button class="follow-button">Follow</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -63,16 +63,17 @@ namespace TwitterCloneBackend.Services
 
         }
 
-        public void AddTweet(string username, TweetDto tweet)
+        public void AddTweet(string username, AddTweetDto tweet)
         {
             User user = _userRepository.getByUsername(username);
             if(user != null )
             {
-                var newTweet = new Tweet 
+                var newTweet = new Tweet
                 {
-                  Content = tweet.Content,
-                  UserId = user.Id,
-                  Created = DateTime.Now,
+                    Content = tweet.Content,
+                    UserId = user.Id,
+                    UserName = user.Username,
+                    Created = DateTime.Now,
                 };
 
                 _tweetRepository.AddTweet(newTweet);
@@ -101,7 +102,7 @@ namespace TwitterCloneBackend.Services
             if(user != null)
             {
                 var tweets = _tweetRepository.GetTweetsByUser(user);
-               
+                
                 return tweets;
             }
             return null;

@@ -7,7 +7,7 @@ using TwitterCloneBackend.Services.Interfaces;
 
 namespace TwitterCloneBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/tweets")]
     [ApiController]
     public class TweetController : ControllerBase
     {
@@ -20,13 +20,13 @@ namespace TwitterCloneBackend.Controllers
         [HttpPost]
         [Route("AddTweet")]
         [Authorize]
-        public IActionResult AddTweet([FromBody] TweetDto tweetDto)
+        public IActionResult AddTweet([FromBody] AddTweetDto tweetDto)
         {
             try
             {
                 string username = User.Identity.Name;
                 _tweetService.AddTweet(username, tweetDto);
-                return Ok("Tweet added successfully.");
+                return Ok();
             }
             catch (Exception ex)
             {
